@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Simple contacts management application">
+    <meta name="keywords" content="contacts, management, javascript, webapp">
+    <meta name="author" content="Your Name">
+    <title>Simple Contacts Application</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Contacts application</h1>
+            
+        </header>
+
+        <div class="card">
+            <h2>Add New Contact</h2>
+            <form id="contactForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="contactId">Contact ID</label>
+                        <input type="text" id="contactId" name="contactId" placeholder="Enter unique ID (max 10 chars)" required>
+                        <div class="error" id="contactId-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" id="phone" name="phone" placeholder="Enter 10-digit phone number" required>
+                        <div class="error" id="phone-error"></div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" placeholder="Enter first name (max 10 chars)" required>
+                        <div class="error" id="firstName-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" placeholder="Enter last name (max 10 chars)" required>
+                        <div class="error" id="lastName-error"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" placeholder="Enter address (max 30 chars)" required>
+                    <div class="error" id="address-error"></div>
+                </div>
+                
+                <button type="submit">Add Contact</button>
+                <div class="success" id="success-message" style="display: none;"></div>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Your Contacts</h2>
+            <div id="contactsList" class="contact-list">
+                <div class="empty-state">
+                    No contacts yet. Add your first contact above!
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
