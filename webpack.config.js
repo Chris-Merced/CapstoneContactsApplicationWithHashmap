@@ -13,7 +13,7 @@ module.exports = (env, argv) => {
       path: path.resolve(__dirname, 'docs'),
       filename: isProduction ? 'js/[name].[contenthash].js' : 'js/[name].bundle.js',
       clean: true,
-      publicPath: isProduction ? '/CapstoneContactsApplicationWithHashMap/' : '/'
+      publicPath: isProduction ? '/CapstoneContactsApplicationWithHashmap/' : '/'
     },
 
     module: {
