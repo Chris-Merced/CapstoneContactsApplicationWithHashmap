@@ -5,40 +5,45 @@ import { Contact } from '../models/Contact.js';
 export class ContactService {
     constructor() {
         this.contactList = [];
+        this.contactHashMap = {}; // New hashmap
         this.loadFromStorage();
     }
 
     addContact(newContact) {
-        // Check if contact with same ID already exists
-        const existingContact = this.contactList.find(contact => 
-            contact.getID() === newContact.getID()
-        );
-        
-        if (existingContact) {
+        // Check if contact with same ID already exists through hashmap instead of contactList
+         if (this.contactHashMap[newContact.getID()]) {
             throw new Error("Contact with ID already exists");
         }
-        
         this.contactList.push(newContact);
+        this.contactHashMap[newContact.getID()] = newContact; // Add to hashmap
         this.saveToStorage();
     }
 
     deleteContact(contactID) {
-        const index = this.contactList.findIndex(contact => 
-            contact.getID() === contactID
-        );
-        
-        if (index === -1) {
+        //Check existence through hashmap instead of contactList
+        if (!this.contactHashMap[contactID]) {
             throw new Error("Contact with ID not found");
         }
         
+        // Remove from array
+        const index = this.contactList.findIndex(contact => 
+            contact.getID() === contactID
+        );
         this.contactList.splice(index, 1);
+        
+        // Remove from hashmap as well
+        delete this.contactHashMap[contactID];
         this.saveToStorage();
     }
 
+    // New method for O(1) search by ID
+    searchContactByID(contactID) {
+        return this.contactHashMap[contactID] || null;
+    }
+
     updateContact(contactID, firstName, lastName, phone, address) {
-        const contact = this.contactList.find(contact => 
-            contact.getID() === contactID
-        );
+        //Check existence via hashmap for O(1) lookup instead of O(n) with contact list
+        const contact = this.contactHashMap[contactID]; 
         
         if (!contact) {
             throw new Error("Contact with ID not found");
@@ -63,10 +68,14 @@ export class ContactService {
         }
     }
 
+    // New method for O(1) search by ID
+    searchContactByID(contactID) {
+        return this.contactHashMap[contactID] || null;
+    }
+
     getContact(contactID) {
-        const contact = this.contactList.find(contact => 
-            contact.getID() === contactID
-        );
+        //Get contact via hashmap for O(1) lookup now instead of O(n) with contact list
+        const contact = this.contactHashMap[contactID]; 
         
         if (!contact) {
             throw new Error("Contact with ID not found");
@@ -105,10 +114,17 @@ export class ContactService {
                         contactData.address
                     )
                 );
+                
+                // Rebuild hashmap from loaded contacts
+                this.contactHashMap = {};
+                this.contactList.forEach(contact => {
+                    this.contactHashMap[contact.getID()] = contact;
+                });
             }
         } catch (error) {
             console.error('Error loading contacts from storage:', error);
             this.contactList = [];
+            this.contactHashMap = {};
         }
     }
 }

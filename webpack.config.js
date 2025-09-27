@@ -13,7 +13,7 @@ module.exports = (env, argv) => {
       path: path.resolve(__dirname, 'docs'),
       filename: isProduction ? 'js/[name].[contenthash].js' : 'js/[name].bundle.js',
       clean: true,
-      publicPath: '/CapstoneContactsApplication/'
+      publicPath: isProduction ? '/CapstoneContactsApplicationWithHashMap/' : '/'
     },
 
     module: {
@@ -82,7 +82,7 @@ module.exports = (env, argv) => {
 
     devServer: {
       static: {
-        directory: path.join(__dirname, 'dist')
+        directory: path.join(__dirname, 'docs')
       },
       port: 3000,
       open: true,

@@ -188,6 +188,34 @@ button:hover {
     display: block;
 }
 
+.search-results {
+    margin-top: 1rem;
+}
+
+.search-result-found {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    padding: 1rem;
+}
+
+.search-result-not-found {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    padding: 1rem;
+}
+
+.search-result-found h3 {
+    color: #155724;
+    margin-top: 0;
+}
+
+.search-result-not-found h3 {
+    color: #721c24;
+    margin-top: 0;
+}
+
 @media (max-width: 600px) {
     .form-row {
         grid-template-columns: 1fr;

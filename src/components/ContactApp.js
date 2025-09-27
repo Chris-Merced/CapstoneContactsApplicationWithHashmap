@@ -13,7 +13,67 @@ export class ContactApp {
     initializeEventListeners() {
         const form = document.getElementById('contactForm');
         form.addEventListener('submit', (e) => this.handleAddContact(e));
+
+        // Add search event listeners for hashmap lookup
+        const searchButton = document.getElementById('searchButton');
+        const clearButton = document.getElementById('clearSearch');
+        const searchInput = document.getElementById('searchInput');
+        
+        searchButton.addEventListener('click', () => this.handleSearch());
+        clearButton.addEventListener('click', () => this.clearSearch());
+        
+        // Allow Enter key to trigger search
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.handleSearch();
+            }
+        });
     }
+
+    //New methods for search functionality using hashmap
+    handleSearch() {
+        const searchInput = document.getElementById('searchInput');
+        const searchID = searchInput.value.trim();
+        const resultsDiv = document.getElementById('searchResults');
+        
+        if (!searchID) {
+            resultsDiv.innerHTML = '<div class="error">Please enter a contact ID to search</div>';
+            return;
+        }
+        
+        // O(1) hashmap lookup
+        const contact = this.contactService.searchContactByID(searchID);
+        
+        if (contact) {
+            resultsDiv.innerHTML = `
+                <div class="search-result-found">
+                    <h3>Contact Found</h3>
+                    <div class="contact-item">
+                        <div class="contact-info">
+                            <div class="contact-name">${contact.getFirstName()} ${contact.getLastName()}</div>
+                            <div class="contact-details">
+                                ID: ${contact.getID()} | Phone: ${contact.getPhone()} | Address: ${contact.getAddress()}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            resultsDiv.innerHTML = `
+                <div class="search-result-not-found">
+                    <h3>No Contact Found</h3>
+                    <p>No contact exists with ID: "${searchID}"</p>
+                </div>
+            `;
+        }
+    }
+
+    clearSearch() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('searchResults').innerHTML = '';
+    }
+
+
 
     clearErrors() {
         const errorElements = document.querySelectorAll('.error');
